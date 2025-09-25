@@ -56,6 +56,74 @@ function updateUI() {
     totalIncomeEl.textContent = `£${totalIncome.toFixed(2)}`;
     totalExpensesEl.textContent = `£${totalExpenses.toFixed(2)}`;
     balanceEl.textContent = `£${(totalIncome - totalExpenses).toFixed(2)}`;
+
+    updateCharts();
+}
+
+function getCategoryData() {
+    const categoryTotals = {};
+    transactions.forEach(t => {
+        if(t.type === 'expense') {
+            categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
+        }
+    });
+    return categoryTotals;
+}
+
+function getIncomeExpenseData() {
+    let income = 0, expense = 0;
+    transactions.forEach(t => {
+        if(t.type === 'income') income += t.amount;
+        else expense += t.amount;
+    });
+    return { income, expense };
+}
+
+let categoryChart;
+let incomeExpenseChart;
+
+function updateCharts() {
+    const categoryData = getCategoryData();
+    const incomeExpenseData = getIncomeExpenseData();
+
+    const ctx1 = document.getElementById('categoryChart').getContext('2d');
+    if(categoryChart) categoryChart.destroy();
+    categoryChart = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+            labels: Object.keys(categoryData),
+            datasets: [{
+                label: 'Expenses by Category',
+                data: Object.values(categoryData),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#6c63ff', '#00cc99']
+            }]
+        },
+        options: {
+            responsive: true,
+        }
+    });
+
+    const ctx2 = document.getElementById('incomeExpenseChart').getContext('2d');
+    if(incomeExpenseChart) incomeExpenseChart.destroy();
+    incomeExpenseChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Income', 'Expenses'],
+            datasets: [{
+                label: 'Amount',
+                data: [incomeExpenseData.income, incomeExpenseData.expense],
+                backgroundColor: ['#36A2EB', '#FF6384']
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 }
 
 updateUI();
