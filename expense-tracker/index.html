@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Personal Expense Tracker App</h1>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>Add Transaction</h2>
+            <form id="transaction-form">
+                <input type="text" id="description" placeholder="Description" required>
+                <input type="number" id="amount" placeholder="Amount" required>
+                <select id="type">
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+                <select id="category">
+                    <option value="General">General</option>
+                    <option value="Food">Food</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button type="submit">Add</button>
+            </form>
+        </section>
+
+        <section class="transactions-section">
+            <h2>Transactions</h2>
+            <ul id="transaction-list"></ul>
+        </section>
+
+        <section class="totals-section">
+            <h2>Summary</h2>
+            <div class="totals">
+                <p>Total Income: <span id="total-income">$0</span></p>
+                <p>Total Expenses: <span id="total-expenses">$0</span></p>
+                <p>Balance: <span id="balance">$0</span></p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
